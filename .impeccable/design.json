@@ -1,0 +1,426 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-12T12:05:09.300Z",
+  "title": "Design System: RGB Switch",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Ground",
+        "tonalRamp": [
+          "oklch(15.00% 0.0041 285.98)",
+          "oklch(26.43% 0.0041 285.98)",
+          "oklch(37.86% 0.0041 285.98)",
+          "oklch(49.29% 0.0041 285.98)",
+          "oklch(60.71% 0.0041 285.98)",
+          "oklch(72.14% 0.0041 285.98)",
+          "oklch(83.57% 0.0041 285.98)",
+          "oklch(95.00% 0.0041 285.98)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.0077 285.78)",
+          "oklch(26.43% 0.0077 285.78)",
+          "oklch(37.86% 0.0077 285.78)",
+          "oklch(49.29% 0.0077 285.78)",
+          "oklch(60.71% 0.0077 285.78)",
+          "oklch(72.14% 0.0077 285.78)",
+          "oklch(83.57% 0.0077 285.78)",
+          "oklch(95.00% 0.0077 285.78)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(15.00% 0.0106 285.77)",
+          "oklch(26.43% 0.0106 285.77)",
+          "oklch(37.86% 0.0106 285.77)",
+          "oklch(49.29% 0.0106 285.77)",
+          "oklch(60.71% 0.0106 285.77)",
+          "oklch(72.14% 0.0106 285.77)",
+          "oklch(83.57% 0.0106 285.77)",
+          "oklch(95.00% 0.0106 285.77)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15.00% 0.0145 295.21)",
+          "oklch(26.43% 0.0145 295.21)",
+          "oklch(37.86% 0.0145 295.21)",
+          "oklch(49.29% 0.0145 295.21)",
+          "oklch(60.71% 0.0145 295.21)",
+          "oklch(72.14% 0.0145 295.21)",
+          "oklch(83.57% 0.0145 295.21)",
+          "oklch(95.00% 0.0145 295.21)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Text",
+        "tonalRamp": [
+          "oklch(15.00% 0.0034 325.60)",
+          "oklch(26.43% 0.0034 325.60)",
+          "oklch(37.86% 0.0034 325.60)",
+          "oklch(49.29% 0.0034 325.60)",
+          "oklch(60.71% 0.0034 325.60)",
+          "oklch(72.14% 0.0034 325.60)",
+          "oklch(83.57% 0.0034 325.60)",
+          "oklch(95.00% 0.0034 325.60)"
+        ]
+      },
+      "pink": {
+        "role": "primary",
+        "displayName": "Pink",
+        "tonalRamp": [
+          "oklch(15.00% 0.1213 347.80)",
+          "oklch(26.43% 0.1213 347.80)",
+          "oklch(37.86% 0.1213 347.80)",
+          "oklch(49.29% 0.1213 347.80)",
+          "oklch(60.71% 0.1213 347.80)",
+          "oklch(72.14% 0.1213 347.80)",
+          "oklch(83.57% 0.1213 347.80)",
+          "oklch(95.00% 0.1213 347.80)"
+        ]
+      },
+      "vermilion": {
+        "role": "primary",
+        "displayName": "Vermilion",
+        "tonalRamp": [
+          "oklch(15.00% 0.1625 28.32)",
+          "oklch(26.43% 0.1625 28.32)",
+          "oklch(37.86% 0.1625 28.32)",
+          "oklch(49.29% 0.1625 28.32)",
+          "oklch(60.71% 0.1625 28.32)",
+          "oklch(72.14% 0.1625 28.32)",
+          "oklch(83.57% 0.1625 28.32)",
+          "oklch(95.00% 0.1625 28.32)"
+        ]
+      },
+      "orange": {
+        "role": "primary",
+        "displayName": "Orange",
+        "tonalRamp": [
+          "oklch(15.00% 0.1306 58.84)",
+          "oklch(26.43% 0.1306 58.84)",
+          "oklch(37.86% 0.1306 58.84)",
+          "oklch(49.29% 0.1306 58.84)",
+          "oklch(60.71% 0.1306 58.84)",
+          "oklch(72.14% 0.1306 58.84)",
+          "oklch(83.57% 0.1306 58.84)",
+          "oklch(95.00% 0.1306 58.84)"
+        ]
+      },
+      "yellow": {
+        "role": "primary",
+        "displayName": "Yellow",
+        "tonalRamp": [
+          "oklch(15.00% 0.1102 87.59)",
+          "oklch(26.43% 0.1102 87.59)",
+          "oklch(37.86% 0.1102 87.59)",
+          "oklch(49.29% 0.1102 87.59)",
+          "oklch(60.71% 0.1102 87.59)",
+          "oklch(72.14% 0.1102 87.59)",
+          "oklch(83.57% 0.1102 87.59)",
+          "oklch(95.00% 0.1102 87.59)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Focus",
+        "tonalRamp": [
+          "oklch(15.00% 0.1046 61.94)",
+          "oklch(26.43% 0.1046 61.94)",
+          "oklch(37.86% 0.1046 61.94)",
+          "oklch(49.29% 0.1046 61.94)",
+          "oklch(60.71% 0.1046 61.94)",
+          "oklch(72.14% 0.1046 61.94)",
+          "oklch(83.57% 0.1046 61.94)",
+          "oklch(95.00% 0.1046 61.94)"
+        ]
+      },
+      "on-ink": {
+        "role": "primary",
+        "displayName": "On Ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.0350 358.38)",
+          "oklch(26.43% 0.0350 358.38)",
+          "oklch(37.86% 0.0350 358.38)",
+          "oklch(49.29% 0.0350 358.38)",
+          "oklch(60.71% 0.0350 358.38)",
+          "oklch(72.14% 0.0350 358.38)",
+          "oklch(83.57% 0.0350 358.38)",
+          "oklch(95.00% 0.0350 358.38)"
+        ]
+      },
+      "off-surface": {
+        "role": "neutral",
+        "displayName": "Off Surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.0108 285.72)",
+          "oklch(26.43% 0.0108 285.72)",
+          "oklch(37.86% 0.0108 285.72)",
+          "oklch(49.29% 0.0108 285.72)",
+          "oklch(60.71% 0.0108 285.72)",
+          "oklch(72.14% 0.0108 285.72)",
+          "oklch(83.57% 0.0108 285.72)",
+          "oklch(95.00% 0.0108 285.72)"
+        ]
+      },
+      "off-text": {
+        "role": "neutral",
+        "displayName": "Off Text",
+        "tonalRamp": [
+          "oklch(15.00% 0.0083 301.35)",
+          "oklch(26.43% 0.0083 301.35)",
+          "oklch(37.86% 0.0083 301.35)",
+          "oklch(49.29% 0.0083 301.35)",
+          "oklch(60.71% 0.0083 301.35)",
+          "oklch(72.14% 0.0083 301.35)",
+          "oklch(83.57% 0.0083 301.35)",
+          "oklch(95.00% 0.0083 301.35)"
+        ]
+      },
+      "off-hover": {
+        "role": "neutral",
+        "displayName": "Off Hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.0122 292.28)",
+          "oklch(26.43% 0.0122 292.28)",
+          "oklch(37.86% 0.0122 292.28)",
+          "oklch(49.29% 0.0122 292.28)",
+          "oklch(60.71% 0.0122 292.28)",
+          "oklch(72.14% 0.0122 292.28)",
+          "oklch(83.57% 0.0122 292.28)",
+          "oklch(95.00% 0.0122 292.28)"
+        ]
+      },
+      "scan-surface": {
+        "role": "neutral",
+        "displayName": "Scan Surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.0216 329.40)",
+          "oklch(26.43% 0.0216 329.40)",
+          "oklch(37.86% 0.0216 329.40)",
+          "oklch(49.29% 0.0216 329.40)",
+          "oklch(60.71% 0.0216 329.40)",
+          "oklch(72.14% 0.0216 329.40)",
+          "oklch(83.57% 0.0216 329.40)",
+          "oklch(95.00% 0.0216 329.40)"
+        ]
+      },
+      "scan-text": {
+        "role": "neutral",
+        "displayName": "Scan Text",
+        "tonalRamp": [
+          "oklch(15.00% 0.0543 3.94)",
+          "oklch(26.43% 0.0543 3.94)",
+          "oklch(37.86% 0.0543 3.94)",
+          "oklch(49.29% 0.0543 3.94)",
+          "oklch(60.71% 0.0543 3.94)",
+          "oklch(72.14% 0.0543 3.94)",
+          "oklch(83.57% 0.0543 3.94)",
+          "oklch(95.00% 0.0543 3.94)"
+        ]
+      },
+      "scan-hover": {
+        "role": "neutral",
+        "displayName": "Scan Hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.0314 337.27)",
+          "oklch(26.43% 0.0314 337.27)",
+          "oklch(37.86% 0.0314 337.27)",
+          "oklch(49.29% 0.0314 337.27)",
+          "oklch(60.71% 0.0314 337.27)",
+          "oklch(72.14% 0.0314 337.27)",
+          "oklch(83.57% 0.0314 337.27)",
+          "oklch(95.00% 0.0314 337.27)"
+        ]
+      },
+      "field-surface": {
+        "role": "neutral",
+        "displayName": "Field Surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.0159 302.24)",
+          "oklch(26.43% 0.0159 302.24)",
+          "oklch(37.86% 0.0159 302.24)",
+          "oklch(49.29% 0.0159 302.24)",
+          "oklch(60.71% 0.0159 302.24)",
+          "oklch(72.14% 0.0159 302.24)",
+          "oklch(83.57% 0.0159 302.24)",
+          "oklch(95.00% 0.0159 302.24)"
+        ]
+      },
+      "titlebar-surface": {
+        "role": "neutral",
+        "displayName": "Titlebar Surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.0040 286.03)",
+          "oklch(26.43% 0.0040 286.03)",
+          "oklch(37.86% 0.0040 286.03)",
+          "oklch(49.29% 0.0040 286.03)",
+          "oklch(60.71% 0.0040 286.03)",
+          "oklch(72.14% 0.0040 286.03)",
+          "oklch(83.57% 0.0040 286.03)",
+          "oklch(95.00% 0.0040 286.03)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Page headline",
+        "purpose": "Main page title; responsive sizing is described in DESIGN.md."
+      },
+      "title": {
+        "displayName": "Section title",
+        "purpose": "Master command group heading."
+      },
+      "device-title": {
+        "displayName": "Device title",
+        "purpose": "Wrapping device names."
+      },
+      "body": {
+        "displayName": "Device metadata",
+        "purpose": "Secondary device status."
+      },
+      "label": {
+        "displayName": "Segment label",
+        "purpose": "Compact ON/OFF commands."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "background-color 150ms, color 150ms, border-color 150ms",
+        "purpose": "Subtle button state changes."
+      },
+      {
+        "name": "busy-spin",
+        "value": "spin 1s linear infinite",
+        "purpose": "Refresh icon during commands; spin rotates to 360deg."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none !important; transition: none !important",
+        "purpose": "Applied to all elements and pseudo-elements when prefers-reduced-motion is reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact",
+        "value": "620px"
+      },
+      {
+        "name": "narrow",
+        "value": "440px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Master ON",
+      "kind": "button",
+      "refersTo": "button-on",
+      "description": "Warm-spectrum command for all supported devices.",
+      "html": "<button class=\"ds-on\"><svg width=\"21\" height=\"21\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 2v10\"/><path d=\"M18.4 6.6a9 9 0 1 1-12.8 0\"/></svg><span>전체 켜기</span><small>ON</small></button>",
+      "css": ".ds-on{font-family:\"Manrope Variable\", \"Segoe UI\", \"Malgun Gothic\", sans-serif;cursor:pointer;transition:background-color 150ms,color 150ms,border-color 150ms}.ds-on:disabled{opacity:.4;cursor:default}.ds-on:focus-visible{outline:2px solid var(--focus,#ffbe85);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-on{transition:none}}.ds-on{display:flex;align-items:center;justify-content:center;gap:11px;min-height:64px;width:100%;border:1px solid transparent;border-radius:10px;background:var(--warm, linear-gradient(110deg, #ffa4d3 0%, #ff7c6d 38%, #ffab66 70%, #ffdc88 100%));color:#301b22}.ds-on span{font-size:15px;font-weight:750}.ds-on small{margin-left:4px;font-size:10px;font-weight:750;letter-spacing:.03em}.ds-on:hover:not(:disabled){border-color:#ffe4d2;filter:brightness(1.06)}.ds-on:disabled{opacity:.48}"
+    },
+    {
+      "name": "Master OFF",
+      "kind": "button",
+      "refersTo": "button-off",
+      "description": "Solid charcoal companion command.",
+      "html": "<button class=\"ds-off\"><svg width=\"21\" height=\"21\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 2v10\"/><path d=\"M18.4 6.6a9 9 0 1 1-12.8 0\"/></svg><span>전체 끄기</span><small>OFF</small></button>",
+      "css": ".ds-off{font-family:\"Manrope Variable\", \"Segoe UI\", \"Malgun Gothic\", sans-serif;cursor:pointer;transition:background-color 150ms,color 150ms,border-color 150ms}.ds-off:disabled{opacity:.4;cursor:default}.ds-off:focus-visible{outline:2px solid var(--focus,#ffbe85);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-off{transition:none}}.ds-off{display:flex;align-items:center;justify-content:center;gap:11px;min-height:64px;width:100%;border:1px solid #3e3d45;border-radius:10px;background:#2c2c32;color:#e5e3e9}.ds-off span{font-size:15px;font-weight:750}.ds-off small{margin-left:4px;font-size:10px;font-weight:750;letter-spacing:.03em}.ds-off:hover:not(:disabled){background:#36353c;border-color:#66636c}.ds-off:disabled{opacity:.48}"
+    },
+    {
+      "name": "Device discovery",
+      "kind": "button",
+      "refersTo": "button-scan",
+      "description": "Muted rose action in the initial empty state.",
+      "html": "<button class=\"ds-scan\">장치 확인하기<svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10M7 17 17 7\"/></svg></button>",
+      "css": ".ds-scan{font-family:\"Manrope Variable\", \"Segoe UI\", \"Malgun Gothic\", sans-serif;cursor:pointer;transition:background-color 150ms,color 150ms,border-color 150ms}.ds-scan:disabled{opacity:.4;cursor:default}.ds-scan:focus-visible{outline:2px solid var(--focus,#ffbe85);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-scan{transition:none}}.ds-scan{display:inline-flex;align-items:center;justify-content:center;gap:14px;min-height:38px;padding:9px 17px;border:1px solid #51414a;border-radius:7px;background:#30262f;color:#ffd0da;font-size:12px;font-weight:600}.ds-scan:hover:not(:disabled){background:#42313d;border-color:#826170}"
+    },
+    {
+      "name": "Text action",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Quiet refresh, help and demo actions.",
+      "html": "<button class=\"ds-text\">새로고침</button>",
+      "css": ".ds-text{font-family:\"Manrope Variable\", \"Segoe UI\", \"Malgun Gothic\", sans-serif;cursor:pointer;transition:background-color 150ms,color 150ms,border-color 150ms}.ds-text:disabled{opacity:.4;cursor:default}.ds-text:focus-visible{outline:2px solid var(--focus,#ffbe85);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-text{transition:none}}.ds-text{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 3px;border:0;border-radius:5px;background:transparent;color:var(--muted,#a5a3ad);font-size:11px}.ds-text:hover:not(:disabled){color:var(--text,#f3f1f3)}"
+    },
+    {
+      "name": "Device search",
+      "kind": "input",
+      "refersTo": "field-search",
+      "description": "Full-width search field for lists longer than four devices.",
+      "html": "<input class=\"ds-search\" aria-label=\"장치 검색\" placeholder=\"장치 이름 검색\" />",
+      "css": ".ds-search{font-family:\"Manrope Variable\", \"Segoe UI\", \"Malgun Gothic\", sans-serif;width:100%;border:1px solid #413d48;background:#1e1b23;color:var(--text,#f3f1f3);border-radius:7px;padding:10px 12px;font-size:12px;margin-bottom:12px;caret-color:var(--pink,#ffa4d3)}.ds-search::placeholder{color:var(--muted,#a5a3ad)}.ds-search:focus-visible{outline:2px solid var(--focus,#ffbe85);outline-offset:3px}"
+    },
+    {
+      "name": "Device command segments",
+      "kind": "custom",
+      "refersTo": "device-switch",
+      "description": "Explicit last-command selection, with ON shown selected in this specimen.",
+      "html": "<div class=\"ds-segments\" role=\"group\" aria-label=\"장치 RGB 제어\"><button class=\"ds-segment ds-segment-on\" aria-pressed=\"true\">ON</button><button class=\"ds-segment\" aria-pressed=\"false\">OFF</button></div>",
+      "css": ".ds-segment{font-family:\"Manrope Variable\", \"Segoe UI\", \"Malgun Gothic\", sans-serif;cursor:pointer;transition:background-color 150ms,color 150ms,border-color 150ms}.ds-segment:disabled{opacity:.4;cursor:default}.ds-segment:focus-visible{outline:2px solid var(--focus,#ffbe85);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-segment{transition:none}}.ds-segments{display:inline-flex;border:1px solid #36343e;border-radius:8px;padding:3px;gap:2px;background:#1b1b1f}.ds-segment{color:#b9b5c1;background:transparent;border:0;border-radius:5px;min-width:43px;min-height:30px;padding:6px 10px;font-size:10px;font-weight:650;letter-spacing:.03em}.ds-segment:hover:not(:disabled){background:#333138;color:var(--text,#f3f1f3)}.ds-segment[aria-pressed=\"true\"]{background:#414049;color:#fff}.ds-segment-on[aria-pressed=\"true\"]{background:var(--warm, linear-gradient(110deg, #ffa4d3 0%, #ff7c6d 38%, #ffab66 70%, #ffdc88 100%));color:#301b22}.ds-segment:focus-visible{outline-offset:-2px}"
+    },
+    {
+      "name": "Master container",
+      "kind": "card",
+      "refersTo": "master-card",
+      "description": "The softly rounded container for grouped commands.",
+      "html": "<section class=\"ds-master\"><div class=\"ds-master-heading\"><h2>모든 조명</h2><span>ON은 흰색으로 켜집니다</span></div><p>2개 제어 가능 · 2개 준비 중</p><span class=\"ds-spectrum\" aria-hidden=\"true\"></span></section>",
+      "css": ".ds-master{font-family:\"Manrope Variable\", \"Segoe UI\", \"Malgun Gothic\", sans-serif;border:1px solid #333238;border-radius:16px;padding:22px;background:var(--surface,#1c1c20);color:var(--text,#f3f1f3)}.ds-master-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.ds-master h2{font-size:15px;font-weight:600;letter-spacing:-.025em;margin:0}.ds-master-heading>span,.ds-master p{font-size:11px;color:var(--muted,#a5a3ad)}.ds-master p{line-height:1.6;margin:16px 0}.ds-spectrum{display:block;width:57px;height:3px;border-radius:2px;background:var(--warm, linear-gradient(110deg, #ffa4d3 0%, #ff7c6d 38%, #ffab66 70%, #ffdc88 100%))}"
+    },
+    {
+      "name": "Custom titlebar",
+      "kind": "custom",
+      "refersTo": "titlebar",
+      "description": "Window chrome appearance; native controls require Tauri runtime.",
+      "html": "<header class=\"ds-titlebar\"><div class=\"ds-drag\"><span class=\"ds-mark\"><svg width=\"21\" height=\"21\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 2v10\"/><path d=\"M18.4 6.6a9 9 0 1 1-12.8 0\"/></svg></span><span class=\"ds-app-name\">RGB Switch</span></div><div class=\"ds-window-controls\" role=\"group\" aria-label=\"창 제어\"><button class=\"ds-window\" aria-label=\"최소화\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M5 12h14\"/></svg></button><button class=\"ds-window\" aria-label=\"최대화\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/></svg></button><button class=\"ds-window ds-close\" aria-label=\"닫기\"><svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"m6 6 12 12M18 6 6 18\"/></svg></button></div></header>",
+      "css": ".ds-window{font-family:\"Manrope Variable\", \"Segoe UI\", \"Malgun Gothic\", sans-serif;cursor:pointer;transition:background-color 150ms,color 150ms,border-color 150ms}.ds-window:disabled{opacity:.4;cursor:default}.ds-window:focus-visible{outline:2px solid var(--focus,#ffbe85);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-window{transition:none}}.ds-titlebar{font-family:\"Manrope Variable\", \"Segoe UI\", \"Malgun Gothic\", sans-serif;height:44px;display:flex;background:#151517;border-bottom:1px solid #232327;user-select:none}.ds-drag{flex:1;display:flex;align-items:center;gap:9px;padding-left:18px;min-width:0}.ds-mark{display:inline-flex;width:21px;height:21px;align-items:center;justify-content:center;border-radius:6px;background:var(--warm, linear-gradient(110deg, #ffa4d3 0%, #ff7c6d 38%, #ffab66 70%, #ffdc88 100%));color:#2a1720}.ds-mark svg{width:13px;height:13px;stroke-width:2.5}.ds-app-name{font-size:12px;font-weight:650;letter-spacing:-.02em;color:#dedce2}.ds-window-controls{display:flex}.ds-window{display:grid;place-items:center;width:45px;height:43px;border:0;background:transparent;color:#aaa8b2}.ds-window:hover:not(:disabled){background:#2c2c32;color:#fff}.ds-close:hover:not(:disabled){background:#b83948}.ds-window:focus-visible{outline-offset:-4px}.ds-window:disabled{opacity:.3}"
+    }
+  ],
+  "narrative": {
+    "northStar": "A compact light switch panel",
+    "overview": "A compact light switch panel for local Windows RGB control. Near-black ground, charcoal surfaces and warm white type keep the interface quiet; a pink-to-vermilion-to-orange-to-yellow spectrum identifies the ON action and the small power mark.\n\nThe Korean interface uses a short type hierarchy, aligned controls and thin dividers. The custom titlebar belongs to the same visual surface. Selected device segments describe the last successful command; they do not imply measured illumination.",
+    "keyCharacteristics": [
+      "Charcoal surfaces with restrained warm-spectrum accents.",
+      "Compact typography with Korean fallback support.",
+      "Flat device rows and explicit paired ON/OFF commands.",
+      "Custom window chrome and visible keyboard focus."
+    ],
+    "rules": [
+      {
+        "name": "The Warm Command Rule",
+        "body": "Concentrate the spectrum in the ON action, selected ON segment, power mark and thin light strip; use solid charcoal for OFF.",
+        "section": "colors"
+      },
+      {
+        "name": "The Flat Rows Rule",
+        "body": "Separate devices with hairline dividers; reserve an enclosing surface for a meaningful group or message.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do reuse the warm spectrum for the ON command, selected ON segment, power mark and thin light strip.",
+      "Do show command state in both text and the selected segment.",
+      "Do keep unsupported controls visibly disabled while retaining readable device information.",
+      "Do use labeled SVG controls, visible focus and the reduced-motion behavior.",
+      "Do keep technical details in the existing disclosure pattern."
+    ],
+    "donts": [
+      "Don't add gradient text or blurred glow.",
+      "Don't turn each device row into another raised card.",
+      "Don't present a sent command as a measured physical lighting state.",
+      "Don't introduce decorative dashboards or marketing sections into this utility."
+    ]
+  }
+}

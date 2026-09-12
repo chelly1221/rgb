@@ -1,0 +1,3 @@
+# Icon provenance
+
+Icons were regenerated from `app-icon.png` using `npx tauri icon app-icon.png --output src-tauri/icons` on 2026-09-12. The source is the exact transparent PNG attached and selected by the user: three differently sized abstract rising flames with pink/vermilion/orange/yellow gradients, originally made with the built-in image generator. The selected source is preserved without redrawing or recoloring. Tauri creates the required sizes and Windows ICO; the titlebar uses the 64px PNG and the browser favicon uses the ICO. `app-icon.svg` is the retired power-symbol design and is not used by the build.

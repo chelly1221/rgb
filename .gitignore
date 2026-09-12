@@ -1,0 +1,17 @@
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/
+.impeccable/review/
+*.log
+.env
+.env.*
+!.env.example
+tools/*-result.json
+tools/*-result.txt
+tools/*-result.jsonl
+tools/*-result.xml
+tools/close-release-for-update.ps1
+*.pcap
+*.pcapng
+src-tauri/private-driver/
