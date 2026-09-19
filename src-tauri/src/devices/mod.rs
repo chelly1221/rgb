@@ -30,7 +30,7 @@ pub struct Device {
     pub last_lighting: Option<lighting::Lighting>,
 }
 
-const KEYS: [&str; 5] = [
+pub(crate) const KEYS: [&str; 5] = [
     "corsair-harpoon-wired-1b1c-1b5e",
     "palit-rtx3070-10de-2484-1569-2484",
     "msi-b860m-mortar-7e40",
@@ -136,7 +136,13 @@ pub fn scan() -> Result<Vec<Device>> {
     ])
 }
 
-pub fn power(id: u32, key: &str, enabled: bool, motherboard: &mut msi::PowerState) -> Result<()> {
+pub fn power(
+    id: u32,
+    key: &str,
+    enabled: bool,
+    motherboard: &mut msi::PowerState,
+    memory: &mut ram::PowerState,
+) -> Result<()> {
     validate_target(id, key)?;
     match id {
         0 => corsair_runtime::power(enabled),
@@ -157,7 +163,7 @@ pub fn power(id: u32, key: &str, enabled: bool, motherboard: &mut msi::PowerStat
         2 => msi::Board::open(&HidApi::new().map_err(|e| e.to_string())?)?
             .set_power(enabled, motherboard),
         3 => keyboard::Keyboard::open(&HidApi::new().map_err(|e| e.to_string())?)?.power(enabled),
-        4 => ram::Ram::open()?.power(enabled),
+        4 => ram::Ram::open()?.power_with_state(enabled, memory),
         _ => unreachable!(),
     }
 }

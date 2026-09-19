@@ -16,7 +16,7 @@ pub fn setup(app: &mut tauri::App) -> tauri::Result<()> {
     let quit = MenuItem::with_id(app, "quit", "종료", true, None::<&str>)?;
     let menu = Menu::with_items(app, &[&open, &quit])?;
     let mut tray = TrayIconBuilder::with_id("rgb-switch")
-        .tooltip("RGB Switch · 조명 및 DPI 제어")
+        .tooltip("RGB Switch · 조명 · DPI · 모니터 밝기")
         .menu(&menu)
         .show_menu_on_left_click(false)
         .on_menu_event(|app, event| match event.id.as_ref() {

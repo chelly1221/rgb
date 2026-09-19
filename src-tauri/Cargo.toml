@@ -29,7 +29,7 @@ hidapi = { version = "2.6.7", default-features = false, features = ["windows-nat
 libloading = "0.8"
 winreg = "0.55"
 sha2 = "0.10"
-windows-sys = { version = "0.61", features = ["Win32_System_Services", "Win32_Foundation", "Win32_UI_Shell", "Win32_System_Diagnostics_ToolHelp"] }
+windows-sys = { version = "0.61", features = ["Win32_System_Services", "Win32_Foundation", "Win32_UI_Shell", "Win32_System_Diagnostics_ToolHelp", "Win32_Graphics_Gdi", "Win32_Devices_Display"] }
 
 [profile.release]
 lto = true

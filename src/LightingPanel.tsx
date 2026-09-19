@@ -47,20 +47,26 @@ export default function LightingPanel({
   device,
   busy,
   onApply,
+  value,
+  onChange,
 }: {
   device: Target;
   busy: boolean;
   onApply: (settings: Lighting, ids: number[]) => Promise<void>;
+  value?: Lighting;
+  onChange?: (value: Lighting) => void;
 }) {
   const [draft, setDraft] = useState<Lighting | null>(null);
-  const settings = draft ?? device.lastLighting ?? defaultLighting;
+  const settings = value ?? draft ?? device.lastLighting ?? defaultLighting;
   const effect = device.effects.includes(settings.effect)
     ? settings.effect
     : "static";
   const { brightness, speed } = settings;
   const color = colorHex(settings.color);
   const update = (values: Partial<Lighting>) =>
-    setDraft({ ...settings, effect, ...values });
+    onChange
+      ? onChange({ ...settings, effect, ...values })
+      : setDraft({ ...settings, effect, ...values });
   return (
     <section
       className="device-lighting"
@@ -158,23 +164,25 @@ export default function LightingPanel({
               />
             </label>
           </div>
-          <div className="lighting-bottom">
-            <p>이 장치에만 적용합니다.</p>
-            <button
-              className="primary"
-              disabled={!device.effects.length}
-              onClick={() => {
-                const rgb = [1, 3, 5].map((i) =>
-                  parseInt(color.slice(i, i + 2), 16),
-                ) as [number, number, number];
-                void onApply({ effect, color: rgb, brightness, speed }, [
-                  device.id,
-                ]);
-              }}
-            >
-              조명 적용
-            </button>
-          </div>
+          {!onChange && (
+            <div className="lighting-bottom">
+              <p>이 장치에만 적용합니다.</p>
+              <button
+                className="primary"
+                disabled={!device.effects.length}
+                onClick={() => {
+                  const rgb = [1, 3, 5].map((i) =>
+                    parseInt(color.slice(i, i + 2), 16),
+                  ) as [number, number, number];
+                  void onApply({ effect, color: rgb, brightness, speed }, [
+                    device.id,
+                  ]);
+                }}
+              >
+                조명 적용
+              </button>
+            </div>
+          )}
         </fieldset>
         {device.id === 0 && (
           <p className="lighting-note">

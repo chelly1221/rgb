@@ -1,5 +1,7 @@
 mod desktop;
 pub mod devices;
+pub mod monitors;
+mod profiles;
 mod startup;
 
 use devices::corsair::DpiProfile;
@@ -18,6 +20,18 @@ struct Session {
     last_requested: HashMap<String, bool>,
     lighting: HashMap<String, Lighting>,
     motherboard_power: devices::msi::PowerState,
+    memory_power: devices::ram::PowerState,
+}
+impl Session {
+    fn power(&mut self, id: u32, key: &str, enabled: bool) -> Result<()> {
+        devices::power(
+            id,
+            key,
+            enabled,
+            &mut self.motherboard_power,
+            &mut self.memory_power,
+        )
+    }
 }
 type AppState = Arc<Mutex<Session>>;
 
@@ -84,15 +98,10 @@ async fn set_power(
                         }
                         devices::lighting::apply(target.id, &target.key, &on)
                     } else {
-                        devices::power(target.id, &target.key, true, &mut session.motherboard_power)
+                        session.power(target.id, &target.key, true)
                     }
                 } else {
-                    devices::power(
-                        target.id,
-                        &target.key,
-                        false,
-                        &mut session.motherboard_power,
-                    )
+                    session.power(target.id, &target.key, false)
                 }
             } else {
                 Err("중복된 장치 요청입니다.".into())
@@ -269,7 +278,12 @@ pub fn run() {
             get_mouse_dpi,
             set_mouse_dpi,
             startup::get_startup,
-            startup::set_startup
+            startup::set_startup,
+            profiles::list_profiles,
+            profiles::save_profile,
+            profiles::apply_profile,
+            monitors::scan_monitors,
+            monitors::set_monitor_brightness
         ])
         .build(tauri::generate_context!())
         .expect("RGB Switch 실행 실패")

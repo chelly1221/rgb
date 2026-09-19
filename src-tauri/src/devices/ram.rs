@@ -10,6 +10,53 @@ use std::{
     time::{Duration, Instant},
 };
 const ADDRESSES: [u8; 2] = [0x19, 0x1b];
+
+#[derive(Default)]
+pub struct PowerState {
+    resume: [Option<Vec<u8>>; 2],
+}
+fn off_effect() -> [u8; 20] {
+    let mut effect = [0; 20];
+    // Verified physically on both DIMMs: pulse with both color endpoints black.
+    // Static (0x10) refers to the separate per-LED table and ignores these RGBs.
+    effect[0] = 1;
+    effect[1] = 1;
+    effect[2] = 1;
+    effect[7] = 3;
+    effect[11] = 3;
+    effect
+}
+impl PowerState {
+    fn desired(&self, previous: &[Vec<u8>; 2], enabled: bool) -> [Vec<u8>; 2] {
+        std::array::from_fn(|i| {
+            if !enabled {
+                return off_effect().to_vec();
+            }
+            let mut effect = if previous[i] == off_effect() {
+                self.resume[i].clone().unwrap_or_else(|| {
+                    let mut white = off_effect();
+                    white[0] = 0x10; // Resume the existing static LED table if no history exists.
+                    white[4..12].fill(255);
+                    white.to_vec()
+                })
+            } else {
+                previous[i].clone()
+            };
+            if effect[7] == 0 && effect[11] == 0 {
+                effect[7] = 255;
+                effect[11] = 255;
+            }
+            effect
+        })
+    }
+    fn remember_off(&mut self, previous: &[Vec<u8>; 2]) {
+        for (i, effect) in previous.iter().enumerate() {
+            if *effect != off_effect() {
+                self.resume[i] = Some(effect.clone());
+            }
+        }
+    }
+}
 type Open = unsafe extern "system" fn() -> u32;
 type Close = unsafe extern "system" fn() -> i32;
 type Read = unsafe extern "system" fn(i32, *mut u8) -> i32;
@@ -217,17 +264,21 @@ impl Ram {
         }
     }
     pub fn power(&self, enabled: bool) -> Result<()> {
+        self.power_with_state(enabled, &mut PowerState::default())
+    }
+    pub fn power_with_state(&self, enabled: bool, state: &mut PowerState) -> Result<()> {
         let previous = self.snapshot()?;
-        for (address, effect) in ADDRESSES.iter().zip(&previous) {
-            let mut desired = effect.clone();
-            desired[7] = if enabled { 255 } else { 0 };
-            desired[11] = desired[7];
-            if let Err(e) = self.apply_one(*address, &desired) {
+        let desired = state.desired(&previous, enabled);
+        for (address, effect) in ADDRESSES.iter().zip(&desired) {
+            if let Err(e) = self.apply_one(*address, effect) {
                 return Err(match self.restore(&previous) {
                     Ok(()) => format!("{e} 이전 메모리 효과로 복원했습니다."),
                     Err(r) => format!("{e} 복원 실패: {r}"),
                 });
             }
+        }
+        if !enabled {
+            state.remember_off(&previous);
         }
         Ok(())
     }
@@ -247,6 +298,9 @@ impl Ram {
     }
 }
 fn effect_data(s: &super::lighting::Lighting) -> [u8; 20] {
+    if s.brightness == 0 {
+        return off_effect();
+    }
     use super::lighting::Effect;
     let mut data = [0; 20];
     data[0] = match s.effect {
@@ -296,6 +350,47 @@ fn crc8(data: &[u8]) -> u8 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn off_black_clears_rgb_and_repeated_off_preserves_both_resume_effects() {
+        use super::super::lighting::{Effect, Lighting};
+        let first = effect_data(&Lighting {
+            effect: Effect::Static,
+            color: [255, 164, 211],
+            brightness: 70,
+            speed: 2,
+        })
+        .to_vec();
+        let second = effect_data(&Lighting {
+            effect: Effect::Spectrum,
+            color: [25, 90, 140],
+            brightness: 50,
+            speed: 3,
+        })
+        .to_vec();
+        let previous = [first, second];
+        let mut state = PowerState::default();
+        let off = state.desired(&previous, false);
+        let verified_off = [1, 1, 1, 0, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0];
+        assert!(off.iter().all(|p| p.as_slice() == verified_off));
+        state.remember_off(&previous);
+        state.remember_off(&off);
+        assert_eq!(state.desired(&off, true), previous);
+        let fallback = PowerState::default().desired(&off, true);
+        assert!(fallback
+            .iter()
+            .all(|p| p[0] == 0x10 && p[4..12] == [255; 8]));
+        for effect in [Effect::Static, Effect::Breathe, Effect::Spectrum] {
+            assert_eq!(
+                effect_data(&Lighting {
+                    effect,
+                    color: [255, 90, 140],
+                    brightness: 0,
+                    speed: 3
+                }),
+                off_effect()
+            );
+        }
+    }
     #[test]
     fn verification_requires_success_and_distinguishes_failure_stages() {
         assert!(verification_result(true, "verified\r\n").is_ok());

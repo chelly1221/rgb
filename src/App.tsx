@@ -3,6 +3,13 @@ import { invoke, isTauri } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import DpiPanel, { type DpiProfile, type MouseStatus } from "./DpiPanel";
 import Titlebar from "./Titlebar";
+import MonitorPanel from "./MonitorPanel";
+import Profiles, {
+  deviceKeys,
+  defaultDpi,
+  defaultLighting,
+  type SceneProfile,
+} from "./Profiles";
 import LightingPanel, {
   effectNames,
   colorHex,
@@ -159,10 +166,28 @@ export default function App() {
     mask: 31,
     index: 2,
   });
-  const [devices, setDevices] = useState<Device[]>([]);
+  const [liveDevices, setDevices] = useState<Device[]>([]);
+  const [profileDraft, setProfileDraft] = useState<SceneProfile | null>(null);
+  const [profileRevision, setProfileRevision] = useState(0);
+  const devices: Device[] = profileDraft
+    ? demoDevices.map((template) => {
+        const entry = profileDraft.devices.find((e) => e.id === template.id)!;
+        return {
+          ...template,
+          key: entry.key,
+          vendor: "프로파일 편집",
+          detail:
+            "프로파일에 저장할 설정입니다. 저장·적용을 누르면 장치에 반영됩니다.",
+          lastRequested: entry.enabled,
+          lastLighting: entry.lighting,
+        };
+      })
+    : liveDevices;
   const [connected, setConnected] = useState(false);
   const [demo, setDemo] = useState(false);
-  const [busy, setBusy] = useState<string | null>(null);
+  const [commandBusy, setBusy] = useState<string | null>(null);
+  const [profileSaving, setProfileSaving] = useState(false);
+  const busy = commandBusy ?? (profileSaving ? "프로파일 저장 중…" : null);
   const busyRef = useRef(false);
   const [settings, setSettings] = useState(false);
   const [error, setError] = useState("");
@@ -230,9 +255,107 @@ export default function App() {
     };
   }, [demo]);
   const supported = devices.filter((d) => d.supported);
-  const available = connected || demo;
+  const available = connected || demo || !!profileDraft;
+
+  function editProfile(profile: SceneProfile | null) {
+    setProfileDraft(profile);
+    setFilter("");
+    if (!profileDraft && profile) {
+      setExpanded(profile.devices[0].key);
+      setMouseTab("lighting");
+    }
+  }
+  function newProfile(): SceneProfile {
+    return {
+      id: crypto.randomUUID(),
+      name: "",
+      mouseDpi: structuredClone(
+        mouseStatus?.profile ?? (demo ? demoDpi : null),
+      ),
+      devices: deviceKeys.map((key, id) => {
+        const source = liveDevices.find((d) => d.id === id);
+        return {
+          id,
+          key,
+          enabled: source?.lastRequested ?? true,
+          lighting: structuredClone(source?.lastLighting ?? defaultLighting),
+        };
+      }),
+    };
+  }
+  function editProfileLighting(id: number, lighting: Lighting) {
+    setProfileDraft(
+      (p) =>
+        p && {
+          ...p,
+          devices: p.devices.map((e) => (e.id === id ? { ...e, lighting } : e)),
+        },
+    );
+  }
+  async function applyProfile(profile: SceneProfile) {
+    if (busyRef.current) return;
+    busyRef.current = true;
+    setBusy(`‘${profile.name}’ 전체 장치에 적용 중…`);
+    setError("");
+    setMessage("");
+    setFailures({});
+    try {
+      const outcomes: Outcome[] = demo
+        ? profile.devices.map((e) => ({ id: e.id, error: null }))
+        : await invoke("apply_profile", { profile });
+      setDevices((current) =>
+        demoDevices.map((template) => {
+          const entry = profile.devices.find((e) => e.id === template.id)!;
+          const outcome = outcomes.find((o) => o.id === template.id);
+          const previous = current.find((d) => d.id === template.id);
+          return {
+            ...template,
+            ...previous,
+            key: demo ? template.key : entry.key,
+            supported: outcome?.error == null,
+            lastRequested: outcome?.error
+              ? null
+              : entry.enabled && entry.lighting.brightness > 0,
+            lastLighting: outcome?.error
+              ? previous?.lastLighting
+              : entry.lighting,
+            detail:
+              outcome?.error ??
+              (demo ? template.detail : "프로파일 설정 명령을 완료했습니다."),
+          };
+        }),
+      );
+      if (!demo) setConnected(true);
+      if (demo && profile.mouseDpi) {
+        setDemoDpi(profile.mouseDpi);
+        setMouseStatus({
+          active: true,
+          profile: profile.mouseDpi,
+          error: null,
+        });
+      }
+      const failed = outcomes.filter((o) => o.error);
+      setFailures(Object.fromEntries(failed.map((o) => [o.id, o.error!])));
+      if (failed.length)
+        setError(
+          `${failed.length}개 장치 적용 실패. 프로파일은 저장되어 있습니다. 장치별 오류를 확인한 뒤 일괄 적용을 다시 누르세요.`,
+        );
+      setMessage(
+        `${demo ? "데모: " : ""}‘${profile.name}’ ${outcomes.length - failed.length}/5개 장치 적용 완료.`,
+      );
+      setProfileRevision((r) => r + 1);
+    } catch (e) {
+      setError(
+        `프로파일 적용 실패: ${String(e)}. 저장한 프로파일로 다시 시도할 수 있습니다.`,
+      );
+    } finally {
+      busyRef.current = false;
+      setBusy(null);
+    }
+  }
 
   async function scan() {
+    if (profileDraft) return;
     if (busyRef.current) return;
     busyRef.current = true;
     setBusy("장치를 확인하고 있습니다…");
@@ -263,6 +386,18 @@ export default function App() {
 
   async function power(enabled: boolean, targets: Device[]) {
     if (busyRef.current || targets.length === 0) return;
+    if (profileDraft) {
+      setProfileDraft(
+        (p) =>
+          p && {
+            ...p,
+            devices: p.devices.map((e) =>
+              targets.some((t) => t.id === e.id) ? { ...e, enabled } : e,
+            ),
+          },
+      );
+      return;
+    }
     busyRef.current = true;
     setBusy(
       `${targets.length}개 장치에 ${enabled ? "켜기" : "끄기"} 명령을 보내고 있습니다…`,
@@ -439,7 +574,7 @@ export default function App() {
   }
 
   function toggleDemo() {
-    if (busyRef.current) return;
+    if (busyRef.current || profileDraft) return;
     setDemo(!demo);
     setConnected(false);
     setDevices(demo ? [] : demoDevices.map((d) => ({ ...d })));
@@ -470,7 +605,7 @@ export default function App() {
         {demo && (
           <div className="demo-banner">
             <span>데모 미리보기 · 실제 조명은 바뀌지 않습니다.</span>
-            <button onClick={toggleDemo} disabled={!!busy}>
+            <button onClick={toggleDemo} disabled={!!busy || !!profileDraft}>
               데모 종료
             </button>
           </div>
@@ -488,7 +623,7 @@ export default function App() {
               onClick={() => power(true, supported)}
             >
               <Power size={21} />
-              <span>전체 켜기</span>
+              <span>{profileDraft ? "프로파일 전체 ON" : "전체 켜기"}</span>
               <small>ON</small>
             </button>
             <button
@@ -497,7 +632,7 @@ export default function App() {
               onClick={() => power(false, supported)}
             >
               <Power size={21} />
-              <span>전체 끄기</span>
+              <span>{profileDraft ? "프로파일 전체 OFF" : "전체 끄기"}</span>
               <small>OFF</small>
             </button>
           </div>
@@ -535,6 +670,16 @@ export default function App() {
           </div>
         )}
 
+        <Profiles
+          key={String(demo)}
+          demo={demo}
+          busy={!!busy}
+          draft={profileDraft}
+          onEdit={editProfile}
+          onNew={newProfile}
+          onApply={applyProfile}
+          onSaving={setProfileSaving}
+        />
         <section
           className="devices"
           aria-labelledby="devices-heading"
@@ -542,9 +687,14 @@ export default function App() {
         >
           <div className="section-heading">
             <h2 id="devices-heading">
-              장치 {available && <span>{devices.length}</span>}
+              {profileDraft ? "프로파일 장치 설정" : "장치"}{" "}
+              {available && <span>{devices.length}</span>}
             </h2>
-            <button className="text-button" onClick={scan} disabled={!!busy}>
+            <button
+              className="text-button"
+              onClick={scan}
+              disabled={!!busy || !!profileDraft}
+            >
               <RefreshCw size={15} />
               {connected || demo ? "새로고침" : "장치 확인"}
             </button>
@@ -595,7 +745,7 @@ export default function App() {
                   const { Icon, label } = deviceKind(device.kind);
                   return (
                     <li
-                      key={`${demo}:${device.id}:${device.key}`}
+                      key={`${demo}:${!!profileDraft}:${profileRevision}:${device.id}:${device.key}`}
                       hidden={
                         !device.name
                           .toLowerCase()
@@ -640,11 +790,13 @@ export default function App() {
                               />
                             )}
                             {label} <span className="meta-separator">/</span>{" "}
-                            {!device.supported
-                              ? "연결·권한 확인 필요"
-                              : device.lastRequested === null
-                                ? "명령 대기"
-                                : `최근 명령 ${device.lastRequested ? (device.lastLighting ? effectNames[device.lastLighting.effect] : "ON") : "OFF"}`}
+                            {profileDraft
+                              ? `저장할 설정 · ${device.lastRequested ? "ON" : "OFF"}`
+                              : !device.supported
+                                ? "연결·권한 확인 필요"
+                                : device.lastRequested === null
+                                  ? "명령 대기"
+                                  : `최근 명령 ${device.lastRequested ? (device.lastLighting ? effectNames[device.lastLighting.effect] : "ON") : "OFF"}`}
                           </p>
                         </div>
                         <div
@@ -720,20 +872,69 @@ export default function App() {
                                 device={device}
                                 busy={!!busy}
                                 onApply={applyLighting}
+                                value={
+                                  profileDraft?.devices.find(
+                                    (e) => e.id === device.id,
+                                  )?.lighting
+                                }
+                                onChange={
+                                  profileDraft
+                                    ? (value) =>
+                                        editProfileLighting(device.id, value)
+                                    : undefined
+                                }
                               />
                             </div>
                             {device.id === 0 && (
                               <div hidden={mouseTab !== "dpi"}>
-                                <DpiPanel
-                                  active={
-                                    expanded === device.key &&
-                                    mouseTab === "dpi"
-                                  }
-                                  busy={!!busy}
-                                  status={mouseStatus}
-                                  onLoad={loadDpi}
-                                  onApply={applyDpi}
-                                />
+                                {profileDraft && (
+                                  <label className="profile-dpi-option">
+                                    <input
+                                      type="checkbox"
+                                      checked={!!profileDraft.mouseDpi}
+                                      onChange={(e) =>
+                                        setProfileDraft(
+                                          (p) =>
+                                            p && {
+                                              ...p,
+                                              mouseDpi: e.target.checked
+                                                ? structuredClone(defaultDpi)
+                                                : null,
+                                            },
+                                        )
+                                      }
+                                    />
+                                    DPI·표시등도 프로파일에 포함
+                                  </label>
+                                )}
+                                {(!profileDraft || profileDraft.mouseDpi) && (
+                                  <DpiPanel
+                                    active={
+                                      expanded === device.key &&
+                                      mouseTab === "dpi"
+                                    }
+                                    busy={!!busy}
+                                    status={mouseStatus}
+                                    onLoad={loadDpi}
+                                    onApply={applyDpi}
+                                    value={profileDraft?.mouseDpi ?? undefined}
+                                    onChange={
+                                      profileDraft
+                                        ? (value) =>
+                                            setProfileDraft(
+                                              (p) =>
+                                                p && { ...p, mouseDpi: value },
+                                            )
+                                        : undefined
+                                    }
+                                  />
+                                )}
+                                {profileDraft && !profileDraft.mouseDpi && (
+                                  <p className="profile-hint">
+                                    현재 DPI 설정을 유지합니다. 포함을 켜면 기본
+                                    5단계 값에서 편집할 수 있습니다.
+                                  </p>
+                                )}
                               </div>
                             )}
                           </>
@@ -756,6 +957,8 @@ export default function App() {
             </>
           )}
         </section>
+
+        <MonitorPanel key={`monitors-${demo}`} demo={demo} />
 
         <section className="startup-setting" aria-label="앱 시작 설정">
           <label>

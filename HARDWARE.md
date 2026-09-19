@@ -1,5 +1,9 @@
 # Local hardware inventory
 
+Monitor brightness (2026-09-19): two LG ULTRAWIDE displays, EDID product IDs GSM59F2 (upper secondary) and GSM59F1 (lower primary). Windows Dxva2 DDC/CI brightness read/write verified independently at 100 → 99 → 100 percent; both restored to 100. Closely spaced requests initially caused I²C/checksum errors; 120 ms pacing and bounded 250/500 ms retries resolved the observed errors. This is device readback, not a luminance measurement.
+
+Latest RAM OFF correction (2026-09-13): user confirmed both DIMMs visibly off with mode 1, speed 1, custom colors 1, both RGB endpoints black, brightness bytes 7/11 = 3. Mode 0x10 with zero brightness, and mode 0x10 with black custom RGB, both read back correctly but did not extinguish the LEDs. This optical result supersedes earlier readback-only OFF claims below.
+
 Checked 2026-09-12 through Windows CIM/PnP, exact-device USB traffic, and controller readback. Serial numbers omitted.
 
 | Device | Exact model / transport | Verified result |

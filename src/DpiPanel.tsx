@@ -18,15 +18,20 @@ export default function DpiPanel({
   status,
   onLoad,
   onApply,
+  value,
+  onChange,
 }: {
   active: boolean;
   busy: boolean;
   status: MouseStatus | null;
   onLoad: () => Promise<DpiProfile | null>;
   onApply: (profile: DpiProfile) => Promise<DpiProfile | null>;
+  value?: DpiProfile;
+  onChange?: (profile: DpiProfile) => void;
 }) {
   const attempted = useRef(false);
-  const [profile, setProfile] = useState<DpiProfile | null>(null);
+  const [localProfile, setProfile] = useState<DpiProfile | null>(null);
+  const profile = value ?? localProfile;
   const [dirty, setDirty] = useState(false);
   const [saved, setSaved] = useState(false);
   const valid =
@@ -35,6 +40,10 @@ export default function DpiPanel({
       (v) => Number.isInteger(v) && v >= 200 && v <= 10000 && v % 200 === 0,
     );
   const edit = (next: DpiProfile) => {
+    if (onChange) {
+      onChange(next);
+      return;
+    }
     setProfile(next);
     setDirty(true);
     setSaved(false);
@@ -169,29 +178,31 @@ export default function DpiPanel({
                   각 DPI를 200~10000 사이의 200 단위로 입력하세요.
                 </p>
               )}
-              <div className="lighting-bottom">
-                <p aria-live="polite">
-                  {dirty
-                    ? "변경한 설정을 적용해 주세요."
-                    : saved
-                      ? "앱 설정에 저장하고 적용했습니다."
-                      : "버튼을 누르면 활성 단계가 순서대로 바뀝니다."}
-                </p>
-                <button
-                  className="primary"
-                  disabled={!valid}
-                  onClick={async () => {
-                    const next = await onApply(profile);
-                    if (next) {
-                      setProfile(next);
-                      setDirty(false);
-                      setSaved(true);
-                    }
-                  }}
-                >
-                  DPI 저장·적용
-                </button>
-              </div>
+              {!onChange && (
+                <div className="lighting-bottom">
+                  <p aria-live="polite">
+                    {dirty
+                      ? "변경한 설정을 적용해 주세요."
+                      : saved
+                        ? "앱 설정에 저장하고 적용했습니다."
+                        : "버튼을 누르면 활성 단계가 순서대로 바뀝니다."}
+                  </p>
+                  <button
+                    className="primary"
+                    disabled={!valid}
+                    onClick={async () => {
+                      const next = await onApply(profile);
+                      if (next) {
+                        setProfile(next);
+                        setDirty(false);
+                        setSaved(true);
+                      }
+                    }}
+                  >
+                    DPI 저장·적용
+                  </button>
+                </div>
+              )}
             </fieldset>
             <p className="lighting-note">
               앱 실행 중 적용됩니다. 종료하면 마우스에 원래 저장된 DPI와 조명

@@ -3,12 +3,13 @@ fn main() {
     let result = (|| -> Result<(), String> {
         let ram = Ram::open()?;
         let original = ram.snapshot()?;
+        let mut state = rgb_switch_lib::devices::ram::PowerState::default();
         println!("RAM exact identity, firmware, and configuration CRC verified.");
         let test = (|| -> Result<(), String> {
-            ram.power(false)?;
+            ram.power_with_state(false, &mut state)?;
             println!("Both RAM OFF: configuration readback matched.");
             std::thread::sleep(std::time::Duration::from_secs(5));
-            ram.power(true)?;
+            ram.power_with_state(true, &mut state)?;
             println!("Both RAM ON: configuration readback matched.");
             Ok(())
         })();
